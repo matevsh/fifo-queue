@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.10.0/localforage.min.js" integrity="sha512-+BMamP0e7wn39JGL8nKAZ3yAQT2dL5oaXWr4ZYlTGkKOaoXM/Yj7c4oy50Ngz5yoUutAG17flueD4F6QpTlPng==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="queue.js"></script>
+
+    <script>
+        const queue = new Queue('fifoTest');
+
+        setInterval(async () => {
+            const data = (new Date).getTime();
+
+            await queue.pushHead(data);
+
+            const pop = await queue.popTail();
+
+            if(pop?.value !== data) {
+                throw new Error('receiving data error')
+            } else console.log('data passed properly')
+
+        }, 1000)
+    </script>
+
+</head>
+<body>
+    <h1>Aby test zadziałał localforage z kluczem <code>fifoTest</code> musi być puste</h1>
+    <p>*test w konsoli*</p>
+</body>
+</html>
